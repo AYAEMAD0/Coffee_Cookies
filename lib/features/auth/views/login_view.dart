@@ -1,7 +1,9 @@
 import 'package:coffee_cookies/core/constants/app_strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/helper/custom_dialog.dart';
 import '../../../core/helper/validator.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -110,6 +112,7 @@ class _LoginScreenState extends State<LoginView> {
                   CustomButton(
                     onPressed: () {
                       //todo logic login
+                      login();
                     },
                     backgroundColor: AppColors.second,
                     text: AppStrings.login,
@@ -131,5 +134,95 @@ class _LoginScreenState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  void login() async {
+    if (formKey.currentState!.validate()) {
+      //todo show loading
+      CustomDialog.showLoading(context: context);
+
+      try {
+        var credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+
+        var user = credential.user;
+        await user?.reload();
+
+        if (user != null && user.emailVerified) {
+          //todo hide loading
+          CustomDialog.hideLoading(context: context);
+
+          //todo show success message
+          CustomDialog.showMessage(
+            context: context,
+            title: AppStrings.successfully,
+            styleTitle: TextStyles.font22BrownDarkSemiBold,
+            message: AppStrings.loginSuccessfully,
+            styleMessage: TextStyles.font18SecondMedium,
+            posActionName: AppStrings.ok,
+            stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+            posActionClick: () {
+              //todo navigate to dashboard
+              debugPrint('-----------------------------------');
+              debugPrint('Login success');
+            },
+          );
+        } else {
+          await user?.sendEmailVerification();
+          //todo hide loading
+          CustomDialog.hideLoading(context: context);
+          //todo show verification message
+          CustomDialog.showMessage(
+            context: context,
+            title: AppStrings.emailNotVerified,
+            styleTitle: TextStyles.font22BrownDarkSemiBold,
+            message: AppStrings.verifyEmailMessage,
+            styleMessage: TextStyles.font18SecondMedium,
+            posActionName: AppStrings.ok,
+            stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+          );
+
+          await FirebaseAuth.instance.signOut();
+        }
+      } on FirebaseAuthException catch (e) {
+        //todo hide loading
+        CustomDialog.hideLoading(context: context);
+        String errorMessage = AppStrings.somethingWentWrong;
+        if (e.code == 'invalid-credential') {
+          errorMessage = AppStrings.incorrectEmailOrPassword;
+        }
+        //todo show error message
+        CustomDialog.showMessage(
+          context: context,
+          title: AppStrings.error,
+          styleTitle: TextStyles.font22BrownDarkSemiBold,
+          message: errorMessage,
+          styleMessage: TextStyles.font18SecondMedium,
+          posActionName: AppStrings.ok,
+          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+        );
+      } catch (e) {
+        //todo hide loading
+        CustomDialog.hideLoading(context: context);
+        String errorMessage = AppStrings.somethingWentWrong;
+        if (e is FirebaseAuthException) {
+          errorMessage = e.message ?? AppStrings.somethingWentWrong;
+        } else if (e.toString().contains('SocketException')) {
+          errorMessage = AppStrings.noInternetConnection;
+        }
+        //todo  error message
+        CustomDialog.showMessage(
+          context: context,
+          title: AppStrings.error,
+          styleTitle: TextStyles.font22BrownDarkSemiBold,
+          message: errorMessage,
+          styleMessage: TextStyles.font18SecondMedium,
+          posActionName: AppStrings.ok,
+          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+        );
+      }
+    }
   }
 }

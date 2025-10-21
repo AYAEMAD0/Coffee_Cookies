@@ -29,4 +29,14 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     color: AppColors.white,
   );
+  static TextStyle font18SecondMedium = GoogleFonts.inter(
+    fontSize: 18.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: AppColors.second,
+  );
+  static TextStyle font22BrownDarkSemiBold = GoogleFonts.inter(
+    fontSize: 22.sp,
+    fontWeight: FontWeightHelper.semiBold,
+    color: AppColors.brownDark,
+  );
 }

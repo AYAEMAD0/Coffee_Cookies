@@ -1,4 +1,6 @@
 import 'package:coffee_cookies/core/constants/app_strings.dart';
+import 'package:coffee_cookies/core/helper/custom_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -149,6 +151,7 @@ class _SignupViewState extends State<SignupView> {
                   CustomButton(
                     onPressed: () {
                       //todo logic signup
+                      signup();
                     },
                     backgroundColor: AppColors.second,
                     text: AppStrings.createAccount,
@@ -171,4 +174,87 @@ class _SignupViewState extends State<SignupView> {
       ),
     );
   }
+
+  void signup() async {
+    if (formKey.currentState!.validate()) {
+      //todo show loading
+      CustomDialog.showLoading(context: context,);
+      try {
+        UserCredential credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        await credential.user!.sendEmailVerification();
+        //todo hide loading
+        CustomDialog.hideLoading(context: context);
+        //todo show message successfully
+        CustomDialog.showMessage(
+          context: context,
+          title: AppStrings.successfully,
+          styleTitle: TextStyles.font22BrownDarkSemiBold,
+          message: '${AppStrings.verificationEmailSent} ${emailController
+              .text} ${AppStrings.checkInbox}',
+          styleMessage: TextStyles.font18SecondMedium,
+          posActionName: AppStrings.ok,
+          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+          posActionClick: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context, Routes.loginRouteName, (route) => false,);
+          },
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          //todo hide loading
+          CustomDialog.hideLoading(context: context);
+          //todo show message error
+          CustomDialog.showMessage(
+            context: context,
+            title: AppStrings.error,
+            styleTitle: TextStyles.font22BrownDarkSemiBold,
+            message: AppStrings.weakPassword,
+            styleMessage: TextStyles.font18SecondMedium,
+            posActionName: AppStrings.ok,
+            stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+          );
+        } else if (e.code == 'email-already-in-use') {
+          //todo hide loading
+          CustomDialog.hideLoading(context: context);
+          //todo show message error
+          CustomDialog.showMessage(
+            context: context,
+            title: AppStrings.error,
+            styleTitle: TextStyles.font22BrownDarkSemiBold,
+            message: AppStrings.emailAlreadyExists,
+            styleMessage: TextStyles.font18SecondMedium,
+            posActionName: AppStrings.ok,
+            stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+          );
+        }
+      } catch (e) {
+        //todo hide loading
+        CustomDialog.hideLoading(context: context);
+
+        String errorMessage = AppStrings.somethingWentWrong;
+
+        if (e is FirebaseAuthException) {
+          errorMessage = e.message ?? AppStrings.somethingWentWrong;
+        } else if (e.toString().contains('SocketException')) {
+          errorMessage = AppStrings.noInternetConnection;
+        }
+
+        //todo show message error
+        CustomDialog.showMessage(
+          context: context,
+          title: AppStrings.error,
+          styleTitle: TextStyles.font22BrownDarkSemiBold,
+          message: errorMessage,
+          styleMessage: TextStyles.font18SecondMedium,
+          posActionName: AppStrings.ok,
+          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+        );
+      }
+    }
+  }
 }
+
