@@ -41,8 +41,8 @@ class AuthMethod {
             stylePosActionName: TextStyles.font22BrownDarkSemiBold,
             posActionClick: () {
               //todo navigate to dashboard
-              debugPrint('-----------------------------------');
-              debugPrint('Login success');
+              Navigator.pushReplacementNamed(
+                  context, Routes.dashboardRouteName);
             },
           );
         } else {

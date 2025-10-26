@@ -20,7 +20,7 @@ class CoffeeCookies extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.theme,
-          initialRoute: Routes.loginRouteName,
+          initialRoute: Routes.dashboardRouteName,
           onGenerateRoute: appRouter.generateRoute,
         );
       },
