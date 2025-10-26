@@ -1,12 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coffee_cookies/firebase/auth/auth_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/constants/app_asset.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../../core/helper/custom_dialog.dart';
 import '../../../core/helper/validator.dart';
-import '../../../core/routing/routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_styles.dart';
 import '../../../core/widgets/custom_button.dart';
@@ -65,7 +63,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordView> {
                   CustomButton(
                     onPressed: () {
                       //todo logic reset password
-                      resetPassword(emailController.text);
+                      AuthMethod.resetPassword(
+                          context, formKey, emailController);
                     },
                     backgroundColor: AppColors.second,
                     text: AppStrings.resetPassword,
@@ -80,71 +79,65 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordView> {
     );
   }
 
-  void resetPassword(String email) async {
-    if (formKey.currentState!.validate()) {
-      //todo show loading
-      CustomDialog.showLoading(context: context);
-      try {
-        //todo check email is signup or not
-        await FirebaseAuth.instance.sendPasswordResetEmail(
-          email: emailController.text,
-        );
-        //todo hide loading
-        CustomDialog.hideLoading(context: context);
-        //todo show message successfully
-        CustomDialog.showMessage(
-          context: context,
-          title: AppStrings.successfully,
-          styleTitle: TextStyles.font22BrownDarkSemiBold,
-          message: AppStrings.passwordResetSent,
-          styleMessage: TextStyles.font18SecondMedium,
-          posActionName: AppStrings.ok,
-          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
-          posActionClick: () {
-            Navigator.pushReplacementNamed(context, Routes.loginRouteName);
-          },
-        );
-      } on FirebaseAuthException catch (e) {
-        //todo hide loading
-        CustomDialog.hideLoading(context: context);
-        String message;
-        if (e.code == 'user-not-found') {
-          message = AppStrings.userNotFound;
-        } else if (e.code == 'invalid-email') {
-          message = AppStrings.invalidNotValid;
-        } else {
-          message = e.message ?? AppStrings.somethingWentWrong;
-        }
-        //todo show message error
-        CustomDialog.showMessage(
-          context: context,
-          title: AppStrings.error,
-          styleTitle: TextStyles.font22BrownDarkSemiBold,
-          message: message,
-          styleMessage: TextStyles.font18SecondMedium,
-          posActionName: AppStrings.ok,
-          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
-        );
-      } catch (e) {
-        //todo hide loading
-        CustomDialog.hideLoading(context: context);
-        String errorMessage = AppStrings.somethingWentWrong;
-        if (e is FirebaseAuthException) {
-          errorMessage = e.message ?? AppStrings.somethingWentWrong;
-        } else if (e.toString().contains('SocketException')) {
-          errorMessage = AppStrings.noInternetConnection;
-        }
-        //todo show message error
-        CustomDialog.showMessage(
-          context: context,
-          title: AppStrings.error,
-          styleTitle: TextStyles.font22BrownDarkSemiBold,
-          message: errorMessage,
-          styleMessage: TextStyles.font18SecondMedium,
-          posActionName: AppStrings.ok,
-          stylePosActionName: TextStyles.font22BrownDarkSemiBold,
-        );
-      }
-    }
-  }
+// void resetPassword(String email) async {
+//   if (formKey.currentState!.validate()) {
+//     //todo show loading
+//     CustomDialog.showLoading(context: context);
+//     try {
+//       //todo check email is signup or not
+//       await FirebaseAuth.instance.sendPasswordResetEmail(
+//         email: emailController.text,
+//       );
+//       //todo hide loading
+//       CustomDialog.hideLoading(context: context);
+//       //todo show message successfully
+//       CustomDialog.showMessage(
+//         context: context,
+//         title: AppStrings.successfully,
+//         styleTitle: TextStyles.font22BrownDarkSemiBold,
+//         message: AppStrings.passwordResetSent,
+//         styleMessage: TextStyles.font18SecondMedium,
+//         posActionName: AppStrings.ok,
+//         stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+//         posActionClick: () {
+//           Navigator.pushReplacementNamed(context, Routes.loginRouteName);
+//         },
+//       );
+//     } on FirebaseAuthException catch (e) {
+//       //todo hide loading
+//       CustomDialog.hideLoading(context: context);
+//       String message;
+//       if (e.code == 'user-not-found') {
+//         message = AppStrings.userNotFound;
+//       } else if (e.code == 'invalid-email') {
+//         message = AppStrings.invalidNotValid;
+//       } else {
+//         message = e.message ?? AppStrings.somethingWentWrong;
+//       }
+//       //todo show message error
+//       CustomDialog.showMessage(
+//         context: context,
+//         title: AppStrings.error,
+//         styleTitle: TextStyles.font22BrownDarkSemiBold,
+//         message: message,
+//         styleMessage: TextStyles.font18SecondMedium,
+//         posActionName: AppStrings.ok,
+//         stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+//       );
+//     } catch (e) {
+//       //todo hide loading
+//       CustomDialog.hideLoading(context: context);
+//       //todo show message error
+//       CustomDialog.showMessage(
+//         context: context,
+//         title: AppStrings.error,
+//         styleTitle: TextStyles.font22BrownDarkSemiBold,
+//         message: e.toString(),
+//         styleMessage: TextStyles.font18SecondMedium,
+//         posActionName: AppStrings.ok,
+//         stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+//       );
+//     }
+//   }
+// }
 }
