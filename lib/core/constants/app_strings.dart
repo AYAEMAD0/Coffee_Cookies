@@ -51,4 +51,7 @@ class AppStrings {
       "Incorrect email or password. Please try again.";
   static const noInternetConnection =
       "No internet connection. Please check your network and try again.";
+  static const search = 'Search';
+  static const bestOfToday = "Best of Today";
+  static const category = "Categories";
 }
