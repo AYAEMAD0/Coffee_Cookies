@@ -12,5 +12,15 @@ class AppTheme {
       elevation: 0,
       centerTitle: true,
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.second,
+      foregroundColor: AppColors.white,
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: AppColors.second,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: AppColors.white,
+      unselectedItemColor: AppColors.white,
+    ),
   );
 }

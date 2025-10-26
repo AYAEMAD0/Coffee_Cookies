@@ -2,6 +2,7 @@ import 'package:coffee_cookies/core/routing/routes.dart';
 import 'package:coffee_cookies/features/auth/views/forget_password_view.dart';
 import 'package:coffee_cookies/features/auth/views/login_view.dart';
 import 'package:coffee_cookies/features/auth/views/signup_view.dart';
+import 'package:coffee_cookies/features/dashboard/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -13,6 +14,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => SignupView(),);
       case Routes.forgetPasswordRouteName:
         return MaterialPageRoute(builder: (context) => ForgetPasswordView(),);
+      case Routes.dashboardRouteName:
+        return MaterialPageRoute(builder: (context) => DashboardView(),);
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
