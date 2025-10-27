@@ -1,7 +1,6 @@
 import 'package:coffee_cookies/core/constants/app_asset.dart';
 
 class CategoryDataModel {
-  final String id;
   final String nameCategory;
   final String title;
   final String image;
@@ -9,7 +8,6 @@ class CategoryDataModel {
   final bool isFavourite;
 
   CategoryDataModel({
-    required this.id,
     required this.nameCategory,
     required this.title,
     required this.image,
@@ -29,7 +27,6 @@ class CategoryDataModel {
 
   static List<CategoryDataModel> categoryDataList = [
     CategoryDataModel(
-      id: '1',
       nameCategory: 'Coffee',
       title: 'Americano Coffee',
       image: AppAsset.americanoCoffee,
@@ -37,7 +34,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '2',
       nameCategory: 'Coffee',
       title: 'Coffee Flavor',
       image: AppAsset.coffeeFlavorCoffee,
@@ -45,7 +41,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '3',
       nameCategory: 'Coffee',
       title: 'Cold Brew Coffee',
       image: AppAsset.coldBrewCoffee,
@@ -53,7 +48,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '4',
       nameCategory: 'Coffee',
       title: 'French Press Coffee',
       image: AppAsset.frenchPressCoffee,
@@ -61,7 +55,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '5',
       nameCategory: 'Coffee',
       title: 'Turkish Coffee',
       image: AppAsset.turkishCoffee,
@@ -69,7 +62,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '6',
       nameCategory: 'Cookies',
       title: 'Banana Chocolate Chip Cookies',
       image: AppAsset.bananaChocolateChipCookies,
@@ -77,7 +69,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '7',
       nameCategory: 'Cookies',
       title: 'Caramel Crunch Cookies',
       image: AppAsset.caramelCrunchCookies,
@@ -85,7 +76,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '8',
       nameCategory: 'Cookies',
       title: 'Chocolate Chip Cookies',
       image: AppAsset.chocolateChipCookies,
@@ -93,7 +83,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '9',
       nameCategory: 'Cookies',
       title: 'Chocolate Cookies',
       image: AppAsset.chocolateCookies,
@@ -101,7 +90,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '10',
       nameCategory: 'Cookies',
       title: 'Cocoa And Melon Cookies',
       image: AppAsset.cocoaAndMelonCookies,
@@ -109,7 +97,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '11',
       nameCategory: 'Cookies',
       title: 'Milky Way Sweet Cookies',
       image: AppAsset.milkyWaySweetCookies,
@@ -117,7 +104,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '12',
       nameCategory: 'Bakery',
       title: 'Donuts Bakery',
       image: AppAsset.donutsBakery,
@@ -125,7 +111,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '13',
       nameCategory: 'Bakery',
       title: 'Flaky Bakery',
       image: AppAsset.flakyBakery,
@@ -133,7 +118,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '14',
       nameCategory: 'Bakery',
       title: 'Cinnamon Bakery',
       image: AppAsset.cinnamonBakery,
@@ -141,7 +125,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '15',
       nameCategory: 'Bakery',
       title: 'Cupcake Bakery',
       image: AppAsset.cupcakeBakery,
@@ -149,7 +132,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '16',
       nameCategory: 'Espresso',
       title: 'Espresso With Steamed',
       image: AppAsset.espressoWithSteamedEspresso,
@@ -157,7 +139,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '17',
       nameCategory: 'Espresso',
       title: 'Lungo Espresso',
       image: AppAsset.lungoEspresso,
@@ -165,7 +146,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '18',
       nameCategory: 'Espresso',
       title: 'Macchiato Espresso',
       image: AppAsset.macchiatoEspresso,
@@ -173,7 +153,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '19',
       nameCategory: 'Espresso',
       title: 'Single Espresso',
       image: AppAsset.singleEspresso,
@@ -181,7 +160,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '20',
       nameCategory: 'Mocha',
       title: 'Classic Mocha',
       image: AppAsset.classicMocha,
@@ -189,7 +167,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '21',
       nameCategory: 'Mocha',
       title: 'Iced Mocha',
       image: AppAsset.icedMocha,
@@ -197,7 +174,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '22',
       nameCategory: 'Mocha',
       title: 'Peppermint Mocha',
       image: AppAsset.peppermintMocha,
@@ -205,7 +181,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '23',
       nameCategory: 'Latte',
       title: 'Caramel Latte',
       image: AppAsset.caramelLatte,
@@ -213,7 +188,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '24',
       nameCategory: 'Latte',
       title: 'Hazelnut Latte',
       image: AppAsset.hazelnutLatte,
@@ -221,7 +195,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '25',
       nameCategory: 'Latte',
       title: 'Iced Latte',
       image: AppAsset.icedLatte,
@@ -229,7 +202,6 @@ class CategoryDataModel {
       isFavourite: false,
     ),
     CategoryDataModel(
-      id: '26',
       nameCategory: 'Latte',
       title: 'Vanilla Latte',
       image: AppAsset.vanillaLatte,
