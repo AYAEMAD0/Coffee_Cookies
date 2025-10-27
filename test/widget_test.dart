@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:coffee_cookies/coffee_cookies.dart';
+import 'package:coffee_cookies/core/helper/shared_check_helper.dart';
 import 'package:coffee_cookies/core/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +14,11 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(CoffeeCookies(appRouter: AppRouter()));
+    await SharedCheckHelper.init();
+    final bool login = await SharedCheckHelper.getLogin();
+    await tester.pumpWidget(
+      CoffeeCookies(appRouter: AppRouter(), isLogin: login),
+    );
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -1,10 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_cookies/provider/category_provider/category_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/constants/app_strings.dart';
 import '../../core/helper/custom_dialog.dart';
+import '../../core/helper/shared_check_helper.dart';
 import '../../core/routing/routes.dart';
 import '../../core/theme/app_styles.dart';
+import '../../provider/user_provider/user_provider.dart';
+import '../firestore/firebase_utils.dart';
+import '../firestore/model/user_model.dart';
 
 class AuthMethod {
   static void login(
@@ -27,6 +34,16 @@ class AuthMethod {
         await user?.reload();
 
         if (user != null && user.emailVerified) {
+          var userFire = await FireBaseUtils().getUserFromFirebase(
+            user.uid,
+          );
+          var userProvider = Provider.of<UserProvider>(context, listen: false);
+          userProvider.changeCurrentUser(userFire!);
+          var categoryProvider = Provider.of<CategoryProvider>(
+              context, listen: false);
+          categoryProvider.changeIndex(0, userProvider.currentUser!.id);
+          await SharedCheckHelper.setLogin(true);
+          await FireBaseUtils.addStaticCategoriesIfEmpty(user.uid);
           //todo hide loading
           CustomDialog.hideLoading(context: context);
 
@@ -101,6 +118,7 @@ class AuthMethod {
     GlobalKey<FormState> formKey,
     TextEditingController emailController,
     TextEditingController passwordController,
+      TextEditingController nameController,
   ) async {
     if (formKey.currentState!.validate()) {
       //todo show loading
@@ -111,7 +129,17 @@ class AuthMethod {
               email: emailController.text,
               password: passwordController.text,
             );
-        await credential.user!.sendEmailVerification();
+        var user = credential.user;
+        await user!.sendEmailVerification();
+
+        var userModel = UserModel(
+          id: user.uid,
+          name: nameController.text,
+          email: emailController.text,
+        );
+        await FireBaseUtils().addUserToFirebase(userModel);
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.changeCurrentUser(userModel);
         //todo hide loading
         CustomDialog.hideLoading(context: context);
         //todo show message successfully
@@ -187,6 +215,25 @@ class AuthMethod {
       CustomDialog.showLoading(context: context);
       try {
         //todo check email is signup or not
+        var users = await FirebaseFirestore.instance
+            .collection(UserModel.collectionName)
+            .where('email', isEqualTo: emailController.text)
+            .get();
+        if (users.docs.isEmpty) {
+          //todo hide loading
+          CustomDialog.hideLoading(context: context);
+          //todo show message email not registered
+          CustomDialog.showMessage(
+            context: context,
+            title: AppStrings.error,
+            styleTitle: TextStyles.font22BrownDarkSemiBold,
+            message: AppStrings.emailNotRegistered,
+            styleMessage: TextStyles.font18SecondMedium,
+            posActionName: AppStrings.ok,
+            stylePosActionName: TextStyles.font22BrownDarkSemiBold,
+          );
+          return;
+        }
         await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text,
         );
