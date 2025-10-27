@@ -1,27 +1,24 @@
 import 'package:coffee_cookies/core/theme/app_colors.dart';
+import 'package:coffee_cookies/firebase/firestore/model/category_model_fire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:provider/provider.dart';
 import '../../../../../core/theme/app_styles.dart';
+import '../../../../../provider/category_provider/category_provider.dart';
+import '../../../../../provider/user_provider/user_provider.dart';
 
 class BuiltItem extends StatelessWidget {
   const BuiltItem({
     super.key,
-    required this.title,
-    required this.category,
-    required this.image,
-    required this.isFav,
+    required this.model,
   });
 
-  final String title;
-  final String category;
-  final String image;
-  final bool isFav;
-
+  final CategoryModelFire model;
   @override
   Widget build(BuildContext context) {
+    var categoryProvider = Provider.of<CategoryProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     return Container(
-      width: 190,
       padding: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
         color: AppColors.transparent,
@@ -31,38 +28,44 @@ class BuiltItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.r),
-              topRight: Radius.circular(15.r),
-            ),
-            child: Image.asset(
-              image,
-              height: 180.h,
-              width: double.infinity,
-              fit: BoxFit.fill,
+          SizedBox(
+            height: 180.h,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.r),
+                topRight: Radius.circular(15.r),
+              ),
+              child: Image.asset(
+                model.image,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
             child: Column(
               spacing: 10.h,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyles.font16BrownDarkBold),
+                Text(model.title, style: TextStyles.font16BrownDarkBold),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(category, style: TextStyles.font14BrownDarkMedium),
+                    Text(model.nameCategory,
+                        style: TextStyles.font14BrownDarkMedium),
                     InkWell(
                       onTap: () {
                         //todo change fav
+                        categoryProvider.updateFavouriteEvent(
+                            model, context, userProvider.currentUser!.id);
                       },
                       child: CircleAvatar(
                         backgroundColor: AppColors.second,
                         radius: 15.r,
                         child: Icon(
-                          isFav ? Icons.favorite : Icons.favorite_outline,
+                          model.isFavourite ? Icons.favorite : Icons
+                              .favorite_outline,
                           size: 18,
                           color: AppColors.white,
                         ),

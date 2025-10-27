@@ -3,7 +3,9 @@ import 'package:coffee_cookies/core/theme/app_colors.dart';
 import 'package:coffee_cookies/features/dashboard/tabs/order/order_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/user_provider/user_provider.dart';
 import 'tabs/fav/fav_tab.dart';
 import 'tabs/home/home_tab.dart';
 import 'tabs/profile/profile_tab.dart';
@@ -17,6 +19,14 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<UserProvider>(context, listen: false).initUser();
+    });
+  }
 
   final List<IconData> iconSelected = [
     Icons.home,

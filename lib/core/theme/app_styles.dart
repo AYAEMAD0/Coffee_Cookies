@@ -64,4 +64,9 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     color: AppColors.brownDark,
   );
+  static TextStyle font14BrownDarkBold = GoogleFonts.inter(
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: AppColors.brownDark,
+  );
 }

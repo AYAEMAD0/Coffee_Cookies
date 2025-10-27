@@ -28,7 +28,7 @@ class BuiltBestItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 115.h,
-      padding: EdgeInsets.only(right: 9.w),
+      padding: EdgeInsets.only(right: 10.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
         border: Border.all(color: AppColors.brownExtraLight, width: 1.3.w),
@@ -45,16 +45,17 @@ class BuiltBestItem extends StatelessWidget {
                 bottomLeft: Radius.circular(15.r),
               ),
             ),
-            child: Expanded(child: Image.asset(image, fit: BoxFit.cover)),
+            child: Image.asset(image, fit: BoxFit.cover),
           ),
           SizedBox(width: 15.w),
           //todo info
           Expanded(
             child: Column(
-              spacing: 3.h,
+              spacing: 5.h,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyles.font16BrownDarkBold),
+                SizedBox(width: 5.h),
+                Text(title, style: TextStyles.font14BrownDarkBold),
                 Text(category, style: TextStyles.font14BrownDarkRegular),
                 Text(price, style: TextStyles.font18BrownDarkBold),
               ],
@@ -69,7 +70,11 @@ class BuiltBestItem extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: AppColors.grey,
                   radius: 15.r,
-                  child: const Icon(Icons.remove, color: AppColors.white),
+                  child: const Icon(
+                    Icons.remove,
+                    color: AppColors.white,
+                    size: 20,
+                  ),
                 ),
               ),
               Text("$qty", style: TextStyles.font20SecondBold),
@@ -78,7 +83,11 @@ class BuiltBestItem extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: AppColors.second,
                   radius: 15.r,
-                  child: const Icon(Icons.add, color: AppColors.white),
+                  child: const Icon(
+                    Icons.add,
+                    color: AppColors.white,
+                    size: 20,
+                  ),
                 ),
               ),
             ],

@@ -54,4 +54,5 @@ class AppStrings {
   static const search = 'Search';
   static const bestOfToday = "Best of Today";
   static const category = "Categories";
+  static const notFound = "No results found";
 }

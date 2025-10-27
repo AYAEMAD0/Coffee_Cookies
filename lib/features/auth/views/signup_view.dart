@@ -151,7 +151,7 @@ class _SignupViewState extends State<SignupView> {
                     onPressed: () {
                       //todo logic signup
                       AuthMethod.signup(context, formKey, emailController,
-                          passwordController);
+                          passwordController, nameController);
                     },
                     backgroundColor: AppColors.second,
                     text: AppStrings.createAccount,

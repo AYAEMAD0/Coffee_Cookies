@@ -7,8 +7,13 @@ import 'core/theme/app_theme.dart';
 
 class CoffeeCookies extends StatelessWidget {
   final AppRouter appRouter;
+  final bool isLogin;
 
-  const CoffeeCookies({super.key, required this.appRouter});
+  const CoffeeCookies({
+    super.key,
+    required this.appRouter,
+    required this.isLogin,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,9 @@ class CoffeeCookies extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.theme,
-          initialRoute: Routes.dashboardRouteName,
+          initialRoute: isLogin
+              ? Routes.dashboardRouteName
+              : Routes.loginRouteName,
           onGenerateRoute: appRouter.generateRoute,
         );
       },
